@@ -1,10 +1,94 @@
-.App {
-  max-width: 400px;
-  margin: 50px auto;
-  text-align: center;
-  font-family: Arial, sans-serif;
+/* Configuración General */
+:root {
+  --primary: #646cff;
+  --bg: #1a1a1a;
+  --card: #242424;
+  --text: #ffffff;
 }
-input { padding: 8px; margin-right: 5px; }
-button { padding: 8px 15px; cursor: pointer; }
-ul { list-style: none; padding: 0; margin-top: 20px; }
-li { background: #f4f4f4; margin: 5px 0; padding: 10px; border-radius: 5px; color: #333; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.App {
+  width: 100%;
+  max-width: 500px;
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 30px;
+  background: linear-gradient(45deg, #646cff, #ff64f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Contenedor de Entrada */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #2a2a2a;
+  color: white;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+  background-color: #535bf2;
+  transform: translateY(-2px);
+}
+
+/* La Lista de Tareas */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: var(--card);
+  margin-bottom: 12px;
+  padding: 15px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--primary);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

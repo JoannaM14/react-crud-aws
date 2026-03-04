@@ -29,18 +29,25 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Mis Tareas en AWS</h1>
+    <h1>Mis Tareas en AWS</h1>
+    
+    <div className="input-group">
       <input 
         value={nuevaTarea} 
         onChange={(e) => setNuevaTarea(e.target.value)} 
-        placeholder="Escribe una tarea..." 
+        placeholder="¿Qué tienes pendiente, Joanna?" 
       />
       <button onClick={agregarTarea}>Agregar</button>
-      
-      <ul>
-        {tareas.map(t => <li key={t.id}>{t.info}</li>)}
-      </ul>
     </div>
+    
+    <ul>
+      {tareas.map(t => (
+        <li key={t.id}>
+          <span>{t.info}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
   )
 }
 

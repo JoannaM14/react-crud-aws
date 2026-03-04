@@ -53,7 +53,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 # 5. EL CEREBRO (LAMBDA)
 resource "aws_lambda_function" "crud_lambda" {
   filename      = "lambda_function.zip"
-  function_name = "FunciónCRUD_Tareas"
+  function_name = "FuncionCRUD_Tareas"
   role          = aws_iam_role.iam_lambda.arn
   handler       = "index.handler"
   runtime       = "nodejs18.x"

@@ -6,7 +6,7 @@ function App() {
   const [nuevaTarea, setNuevaTarea] = useState("");
   
   // ⚠️ AQUÍ PEGARÁS LA URL QUE TE DÉ TERRAFORM MÁS ADELANTE
-  const API_URL = "TU_URL_DE_API_GATEWAY/tareas";
+  const API_URL = "https://1qyyc5xwg4.execute-api.us-east-1.amazonaws.com/";
 
   // Función para obtener tareas (GET)
   const obtenerTareas = async () => {

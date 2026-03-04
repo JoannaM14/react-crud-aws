@@ -1,0 +1,10 @@
+# Ignorar secretos de Terraform
+terraform/terraform.tfvars
+terraform/*.tfstate
+terraform/*.tfstate.backup
+.terraform/
+
+# Ignorar archivos generados
+lambda/lambda_function.zip
+frontend/dist/
+node_modules/

@@ -4,45 +4,48 @@ import './App.css'
 function App() {
   const [tareas, setTareas] = useState([]);
   const [nuevaTarea, setNuevaTarea] = useState("");
+  const [editandoId, setEditandoId] = useState(null); // Para saber si estamos editando
   
-  // Tu URL de API Gateway (asegúrate de que sea la última que generó Terraform)
-  const API_URL = "https://1qyyc5xwg4.execute-api.us-east-1.amazonaws.com/tareas";
+  const API_URL = "https://7ww5xullo6.execute-api.us-east-1.amazonaws.com/tareas";
 
-  // 1. CORRECCIÓN EN GET: La Lambda ya devuelve el arreglo directamente
   const obtenerTareas = async () => {
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      // Como en la Lambda pusimos 'body = data.Items', aquí 'data' ya es el arreglo
-      setTareas(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error("Error al obtener tareas:", error);
-    }
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    setTareas(Array.isArray(data) ? data : []);
   };
 
-  // 2. CORRECCIÓN EN POST: Se necesita el Header "Content-Type"
-  const agregarTarea = async () => {
-    if (!nuevaTarea.trim()) return; // No agregar tareas vacías
+  const manejarAccion = async () => {
+    if (!nuevaTarea.trim()) return;
 
-    try {
-      await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json" // <--- ¡VITAL! Sin esto, la Lambda recibe el cuerpo vacío
-        },
-        body: JSON.stringify({ info: nuevaTarea }),
-      });
-      
-      setNuevaTarea(""); // Limpiar el input
-      obtenerTareas();   // Refrescar la lista automáticamente
-    } catch (error) {
-      console.error("Error al guardar tarea:", error);
-    }
+    const metodo = editandoId ? "PUT" : "POST";
+    const body = editandoId ? { id: editandoId, info: nuevaTarea } : { info: nuevaTarea };
+
+    await fetch(API_URL, {
+      method: metodo,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    setNuevaTarea("");
+    setEditandoId(null);
+    obtenerTareas();
   };
 
-  useEffect(() => { 
-    obtenerTareas(); 
-  }, []);
+  const prepararEdicion = (tarea) => {
+    setNuevaTarea(tarea.info);
+    setEditandoId(tarea.id);
+  };
+
+  const eliminarTarea = async (id) => {
+    await fetch(API_URL, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    obtenerTareas();
+  };
+
+  useEffect(() => { obtenerTareas(); }, []);
 
   return (
     <div className="App">
@@ -52,21 +55,24 @@ function App() {
         <input 
           value={nuevaTarea} 
           onChange={(e) => setNuevaTarea(e.target.value)} 
-          placeholder="¿Qué tienes pendiente, Joanna?" 
+          placeholder="¿Qué sigue, Joanna?" 
         />
-        <button onClick={agregarTarea}>Agregar</button>
+        <button onClick={manejarAccion}>
+          {editandoId ? "Guardar Cambios" : "Agregar"}
+        </button>
+        {editandoId && <button onClick={() => {setEditandoId(null); setNuevaTarea("");}}>Cancelar</button>}
       </div>
       
       <ul>
-        {tareas.length > 0 ? (
-          tareas.map(t => (
-            <li key={t.id}>
-              <span>{t.info}</span>
-            </li>
-          ))
-        ) : (
-          <p style={{color: '#888'}}>No hay tareas pendientes ✨</p>
-        )}
+        {tareas.map(t => (
+          <li key={t.id}>
+            <span>{t.info}</span>
+            <div className="actions">
+              <button onClick={() => prepararEdicion(t)} className="btn-edit">Editar</button>
+              <button onClick={() => eliminarTarea(t.id)} className="btn-delete">Eliminar</button>
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   )

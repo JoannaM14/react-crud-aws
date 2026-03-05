@@ -55,7 +55,7 @@ function App() {
         <input 
           value={nuevaTarea} 
           onChange={(e) => setNuevaTarea(e.target.value)} 
-          placeholder="¿Qué sigue, Joanna?" 
+          placeholder="Escribe tu tarea" 
         />
         <button onClick={manejarAccion}>
           {editandoId ? "Guardar Cambios" : "Agregar"}

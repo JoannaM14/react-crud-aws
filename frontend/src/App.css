@@ -1,104 +1,50 @@
-/* =========================================
-   1. Configuración General y Paleta
-   ========================================= */
+/* Configuración General */
 :root {
-  /* Nuevo color de fondo vibrante de la referencia */
-  --bg-color: #8a2be2; 
-  /* Color de tarjeta limpio e impecable de la referencia */
-  --card-color: #ffffff; 
-  /* Un gris oscuro suave para el texto */
-  --text-dark: #333333; 
-  /* Color vibrante para los botones principales y acentos de la referencia */
-  --primary: #8a2be2; 
-  /* Sombras suaves para dar profundidad */
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  /* Radio de borde para un aspecto suave de la referencia */
-  --border-radius: 12px; 
-}
-
-/* Restablecimiento básico */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  --primary: #646cff;
+  --danger: #ff4d4d; /* Nuevo color para eliminar */
+  --bg: #1a1a1a;
+  --card: #242424;
+  --text: #ffffff;
 }
 
 body {
-  /* Fondo vibrante para toda la página */
-  background-color: var(--bg-color); 
-  color: var(--text-dark);
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-/* =========================================
-   2. Estilo de Encabezados (Inspirado en el Título de Referencia)
-   ========================================= */
-.h1-wrap {
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  text-align: right;
-  z-index: 10;
-}
-
-h1 {
-  /* Texto blanco limpio para el título principal, como en la referencia */
-  font-size: 3rem; 
-  color: #ffffff; 
-  margin-bottom: 10px;
-}
-
-h2 {
-  /* Texto en un cuadro blanco, como en la referencia */
-  font-size: 1.2rem; 
-  color: #000000; 
-  background-color: #ffffff; 
-  padding: 10px 20px;
-  border-radius: 20px;
-  display: inline-block;
-  font-weight: normal;
-}
-
-/* =========================================
-   3. Contenedor Principal (Para Centrar)
-   ========================================= */
 .App {
   width: 100%;
   max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px; /* Espacio entre el contenedor de entrada y la lista de tareas */
-  align-items: center;
+  padding: 40px 20px;
 }
 
-/* =========================================
-   4. El Contenedor de Entrada de Tareas (Card Superior)
-   ========================================= */
+h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 30px;
+  background: linear-gradient(45deg, #646cff, #ff64f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Contenedor de Entrada */
 .input-group {
-  /* Contenedor blanco limpio, como en la referencia */
-  background-color: var(--card-color); 
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  width: 100%;
-  padding: 20px;
   display: flex;
   gap: 10px;
-  align-items: center;
+  margin-bottom: 30px;
 }
 
-/* El campo de texto (Inspirado en el Cuadro de Referencia) */
 input {
   flex: 1;
   padding: 12px 15px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background: transparent;
-  color: var(--text-dark);
+  border: 1px solid #333;
+  background: #2a2a2a;
+  color: white;
   font-size: 1rem;
   transition: border-color 0.3s;
 }
@@ -108,13 +54,12 @@ input:focus {
   border-color: var(--primary);
 }
 
-/* Estilo para los botones principales y el botón de "Agregar" */
+/* Botón General (para el de Agregar) */
 button {
-  /* Un botón sólido del mismo color vibrante que el fondo, como en la referencia */
-  padding: 12px 20px; 
+  padding: 12px 20px;
   border-radius: 8px;
   border: none;
-  background-color: var(--primary); 
+  background-color: var(--primary);
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -122,59 +67,34 @@ button {
 }
 
 button:hover {
-  background-color: #7a28cb;
+  background-color: #535bf2;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(122, 40, 203, 0.3);
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
 }
 
-/* =========================================
-   5. La Lista de Tareas
-   ========================================= */
+/* La Lista de Tareas */
 ul {
   list-style: none;
   padding: 0;
-  width: 100%;
 }
 
-/* Las Tareas Individuales (Cards de la Lista) */
 li {
-  /* Contenedores blancos limpios para cada tarea, como en la referencia */
-  background: var(--card-color); 
+  background: var(--card);
   margin-bottom: 12px;
   padding: 15px 20px;
   border-radius: 12px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Texto a la izquierda, botón a la derecha */
   align-items: center;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--primary);
   animation: fadeIn 0.5s ease;
 }
 
 li span {
-  flex: 1;
+  flex: 1; /* Hace que el texto use todo el espacio disponible */
   margin-right: 15px;
   text-align: left;
-  /* Color de texto oscuro limpio, como en la referencia */
-  color: var(--text-dark); 
-}
-
-/* =========================================
-   6. Botones de Acción (Inspirados en el Ícono de Referencia)
-   ========================================= */
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-/* El Botón de Eliminar (Simplificado para un Ícono de Texto en un Cuadro Sólido) */
-.btn-delete {
-  /* Un botón rectangular sólido del mismo color vibrante, como en la referencia */
-  background-color: var(--primary); 
-  padding: 8px 15px;
-  font-size: 0.85rem;
-  min-width: 80px;
-  color: white;
-  border-radius: 8px;
 }
 
 .btn-delete:hover {
@@ -185,4 +105,25 @@ li span {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ... (Mismo código anterior, agregar esto) ... */
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit {
+  background-color: #ffa500; /* Naranja para editar */
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-edit:hover {
+  background-color: #cc8400;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
 }

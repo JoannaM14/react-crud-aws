@@ -1,129 +1,202 @@
-/* Configuración General */
+/* --- VARIABLES DE TEMA CLARO MODERNO --- */
 :root {
   --primary: #646cff;
-  --danger: #ff4d4d; /* Nuevo color para eliminar */
-  --bg: #1a1a1a;
-  --card: #242424;
-  --text: #ffffff;
+  --primary-hover: #535bf2;
+  --danger: #ff4d4d;
+  --edit: #ffa500;
+  --bg: #f8fafc;     /* Fondo gris azulado muy suave */
+  --card: #ffffff;   /* Blanco puro para las tarjetas */
+  --text-dark: #1e293b; /* Azul marino oscuro para máxima legibilidad */
+  --text-muted: #64748b;
+  --border: #e2e8f0; 
 }
 
+/* --- RESET Y CENTRADO --- */
 body {
   background-color: var(--bg);
-  color: var(--text);
+  color: var(--text-dark);
   margin: 0;
   display: flex;
   justify-content: center;
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .App {
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* --- TÍTULO CON DEGRADADO --- */
 h1 {
   font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   background: linear-gradient(45deg, #646cff, #ff64f2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  text-align: center;
 }
 
-/* Contenedor de Entrada */
-.input-group {
+.separator {
+  width: 100%;
+  border: 0;
+  border-top: 2px solid var(--border);
+  margin-bottom: 30px;
+  opacity: 0.6;
+}
+
+/* --- PANEL DE USUARIO (ESPACIADO CORREGIDO) --- */
+.user-info-panel {
+  width: 100%;
   display: flex;
-  gap: 10px;
+  justify-content: space-between; 
+  align-items: center;
+  background: #f1f5f9;
+  padding: 14px 20px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  border: 1px solid var(--border);
+}
+
+.user-email {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.btn-logout {
+  background: #fee2e2;
+  color: #ef4444;
+  padding: 8px 16px; 
+  font-size: 0.75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* Espacio extra respecto al correo */
+  margin-left: 20px; 
+}
+
+.btn-logout:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+/* --- INPUT DE TAREAS (VISIBILIDAD CORREGIDA) --- */
+.input-group {
+  width: 100%;
+  display: flex;
+  gap: 12px;
   margin-bottom: 30px;
 }
 
-input {
+.task-input {
   flex: 1;
-  padding: 12px 15px;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background: #2a2a2a;
-  color: white;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: #ffffff !important;
+  /* FORZAMOS COLOR OSCURO PARA VER LO QUE ESCRIBES */
+  color: #1e293b !important; 
   font-size: 1rem;
-  transition: border-color 0.3s;
-}
-
-input:focus {
   outline: none;
-  border-color: var(--primary);
+  transition: border-color 0.2s;
 }
 
-/* Botón General (para el de Agregar) */
-button {
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: none;
+.task-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.1);
+}
+
+/* Estilo para el placeholder (el texto de fondo) */
+.task-input::placeholder {
+  color: #94a3b8;
+}
+
+.btn-primary-action {
   background-color: var(--primary);
   color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s ease;
+  border: none;
+  transition: all 0.2s;
 }
 
-button:hover {
-  background-color: #535bf2;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
+.btn-primary-action:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.2);
 }
 
-/* La Lista de Tareas */
-ul {
+/* --- LISTA DE TAREAS --- */
+.task-list-display {
+  width: 100%;
   list-style: none;
   padding: 0;
 }
 
-li {
+.task-item-card {
   background: var(--card);
-  margin-bottom: 12px;
-  padding: 15px 20px;
-  border-radius: 12px;
+  margin-bottom: 15px;
+  padding: 16px 20px;
+  border-radius: 16px;
   display: flex;
-  justify-content: space-between; /* Texto a la izquierda, botón a la derecha */
+  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid var(--primary);
-  animation: fadeIn 0.5s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--primary);
+  transition: transform 0.2s;
 }
 
-li span {
-  flex: 1; /* Hace que el texto use todo el espacio disponible */
-  margin-right: 15px;
-  text-align: left;
+.task-item-card:hover {
+  transform: translateX(4px);
 }
 
-.btn-delete:hover {
-  background-color: #ff0000;
-  box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+.task-content-text {
+  font-weight: 500;
+  color: var(--text-dark);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ... (Mismo código anterior, agregar esto) ... */
-
-.actions {
+.task-actions-group {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
-.btn-edit {
-  background-color: #ffa500; /* Naranja para editar */
-  padding: 8px 12px;
-  font-size: 0.85rem;
+.btn-icon {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
 }
 
-.btn-edit:hover {
-  background-color: #cc8400;
+.btn-icon:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
 }
 
-.btn-delete {
-  background-color: #ff4d4d;
+/* --- AWS AMPLIFY (CUANDO NO ESTÁS LOGUEADA) --- */
+[data-amplify-authenticator] {
+  margin-top: 20px;
+  background: white !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.no-tasks-msg {
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
 }

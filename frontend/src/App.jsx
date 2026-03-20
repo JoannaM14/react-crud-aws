@@ -82,7 +82,7 @@ function App() {
               
               {/* 1. Panel de Usuario (Email y Botón) */}
               <div className="user-info-panel">
-                <span className="user-email">Bienvenido, <b>{user.signInDetails?.loginId}</b></span>
+                <span className="user-email">Hola, <b>{user.signInDetails?.loginId}</b></span>
                 <button onClick={signOut} className="btn-logout">Cerrar Sesión</button>
               </div>
 

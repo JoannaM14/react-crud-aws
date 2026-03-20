@@ -11,7 +11,7 @@ function App() {
   const [nuevaTarea, setNuevaTarea] = useState("");
   const [editandoId, setEditandoId] = useState(null);
 
-  const API_URL = "https://jkheyox522.execute-api.us-east-1.amazonaws.com/tareas";
+  const API_URL = "https://x67ibe2r86.execute-api.us-east-1.amazonaws.com/tareas";
 
   const getHeaders = async () => {
     try {

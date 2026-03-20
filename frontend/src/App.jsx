@@ -11,7 +11,7 @@ function App() {
   const [nuevaTarea, setNuevaTarea] = useState("");
   const [editandoId, setEditandoId] = useState(null);
 
-  const API_URL = "https://wy7y0xfke6.execute-api.us-east-1.amazonaws.com/tareas";
+  const API_URL = "https://jkheyox522.execute-api.us-east-1.amazonaws.com/tareas";
 
   const getHeaders = async () => {
     try {
@@ -82,7 +82,7 @@ function App() {
               
               {/* 1. Panel de Usuario (Email y Botón) */}
               <div className="user-info-panel">
-                <span className="user-email">Hola, <b>{user.signInDetails?.loginId}</b></span>
+                <span className="user-email">Bienvenido, <b>{user.signInDetails?.loginId}</b></span>
                 <button onClick={signOut} className="btn-logout">Cerrar Sesión</button>
               </div>
 

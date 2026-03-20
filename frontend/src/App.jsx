@@ -2,16 +2,19 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 // 1. Importaciones de AWS Amplify
+import { Amplify } from 'aws-amplify'; // Asegúrate de tener esta import
 import { Authenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
+
+// --- PEGA AQUÍ TU Amplify.configure({ ... }) ---
 
 function App() {
   const [tareas, setTareas] = useState([]);
   const [nuevaTarea, setNuevaTarea] = useState("");
   const [editandoId, setEditandoId] = useState(null);
 
-  const API_URL = "https://x67ibe2r86.execute-api.us-east-1.amazonaws.com/tareas";
+  const API_URL = "https://k167ykfy3j.execute-api.us-east-1.amazonaws.com/tareas";
 
   const getHeaders = async () => {
     try {
@@ -39,7 +42,13 @@ function App() {
   const manejarAccion = async () => {
     if (!nuevaTarea.trim()) return;
     const metodo = editandoId ? "PUT" : "POST";
-    const body = editandoId ? { id: editandoId, info: nuevaTarea } : { info: nuevaTarea };
+    
+    // Si estamos editando, buscamos la tarea original para no perder su estado 'completed'
+    const tareaOriginal = editandoId ? tareas.find(t => t.id === editandoId) : null;
+    
+    const body = editandoId 
+      ? { id: editandoId, info: nuevaTarea, completed: tareaOriginal?.completed || false } 
+      : { info: nuevaTarea, completed: false };
 
     await fetch(API_URL, {
       method: metodo,
@@ -49,6 +58,23 @@ function App() {
 
     setNuevaTarea("");
     setEditandoId(null);
+    obtenerTareas();
+  };
+
+  // --- NUEVA FUNCIÓN: MARCAR / DESMARCAR COMPLETADO ---
+  const marcarCompletado = async (tarea) => {
+    const body = { 
+      id: tarea.id, 
+      info: tarea.info, 
+      completed: !tarea.completed // Cambiamos el estado actual
+    };
+
+    await fetch(API_URL, {
+      method: "PUT",
+      headers: await getHeaders(),
+      body: JSON.stringify(body),
+    });
+    
     obtenerTareas();
   };
 
@@ -68,25 +94,20 @@ function App() {
   return (
     <Authenticator.Provider>
       <div className="App">
-        {/* --- CABECERA PÚBLICA (SIEMPRE VISIBLE) --- */}
         <header>
           <h1>Mis Tareas en AWS</h1>
         </header>
         <div className="separator"></div>
 
-        {/* --- EL GUARDIÁN: SOLO PROTEGE LO QUE ESTÁ ADENTRO --- */}
         <Authenticator>
           {({ signOut, user }) => (
-            /* --- ESTA ES LA NUEVA TARJETA BLANCA --- */
             <main className="auth-card-container">
               
-              {/* 1. Panel de Usuario (Email y Botón) */}
               <div className="user-info-panel">
                 <span className="user-email">Hola, <b>{user.signInDetails?.loginId}</b></span>
                 <button onClick={signOut} className="btn-logout">Cerrar Sesión</button>
               </div>
 
-              {/* 2. Formulario CRUD (Input y Botón) */}
               <div className="input-group">
                 <input 
                   className="task-input"
@@ -99,11 +120,22 @@ function App() {
                 </button>
               </div>
               
-              {/* 3. Lista de Tareas */}
               <ul className="task-list-display">
                 {tareas.map(t => (
                   <li key={t.id} className="task-item-card">
-                    <span className="task-content-text">{t.info}</span>
+                    {/* CASILLA DE VERIFICACIÓN */}
+                    <input 
+                      type="checkbox"
+                      className="task-checkbox"
+                      checked={t.completed || false}
+                      onChange={() => marcarCompletado(t)}
+                    />
+
+                    {/* TEXTO DE LA TAREA (Con estilo condicional) */}
+                    <span className={`task-content-text ${t.completed ? 'completed' : ''}`}>
+                      {t.info}
+                    </span>
+
                     <div className="task-actions-group">
                       <button onClick={() => {setNuevaTarea(t.info); setEditandoId(t.id);}} className="btn-icon">✏️</button>
                       <button onClick={() => eliminarTarea(t.id)} className="btn-icon">🗑️</button>

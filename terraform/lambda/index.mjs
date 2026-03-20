@@ -12,7 +12,7 @@ export const handler = async (event) => {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type, Authorization" // Importante agregar Authorization
   };
 
   try {
@@ -27,11 +27,12 @@ export const handler = async (event) => {
         break;
 
       case "POST /tareas":
-      case "PUT /tareas": // Ambos usan PutCommand (si el ID existe, lo actualiza; si no, lo crea)
+      case "PUT /tareas":
         const requestJSON = JSON.parse(event.body);
         const item = {
           id: requestJSON.id || Date.now().toString(),
-          info: requestJSON.info
+          info: requestJSON.info,
+          completed: requestJSON.completed ?? false // Si no viene (en POST), es false. Si viene (en PUT), usa el valor.
         };
         await dynamo.send(new PutCommand({ TableName: tableName, Item: item }));
         body = item;
